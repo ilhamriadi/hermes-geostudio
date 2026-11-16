@@ -1,0 +1,72 @@
+[build-system]
+requires = ["setuptools>=75.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hermes-geostudio"
+version = "1.0.0"
+description = "Hermes Agent extension for geospatial analysis using Google Earth Engine"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.11,<3.15"
+authors = [{name = "NEXORA AI Team", email = "ai@nexora.ai"}]
+keywords = ["geospatial", "earth-engine", "gis", "mapping", "remote-sensing"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: GIS",
+]
+
+dependencies = [
+    "earthengine-api>=1.0.0",
+    "google-auth>=2.0.0",
+    "google-auth-oauthlib>=1.0.0",
+    "rasterio>=1.3.0",
+    "geopandas>=0.14.0",
+        "shapely>=2.0.0",
+    "pyproj>=3.6.0",
+        "numpy>=1.26.0",
+    "pandas>=2.0.0",
+    "matplotlib>=3.8.0",
+    "reportlab>=4.0.0",
+    "folium>=0.14.0",
+    "mcp>=1.0.0",
+    "click>=8.0.0",
+    "pydantic>=2.0.0",
+    "rich>=13.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-cov>=4.0.0",
+    "jupyter>=1.0.0",
+    "notebook>=7.0.0",
+]
+all = ["hermes-geostudio[dev]"]
+
+[project.scripts]
+geostudio = "hermes_geostudio.server:main"
+geostudio-auth = "hermes_geostudio.gee.client:authenticate_gee"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["hermes_geostudio*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-v --tb=short"
+markers = [
+    "gee: requires GEE authentication (skip if not available)",
+    "integration: requires external services",
+]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
